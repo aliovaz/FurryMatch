@@ -52,7 +52,7 @@
   transition: background-color ease-in 300ms;
 }
 
-.btn-blue:hover {
+.btn-blue:hover:enabled {
   background-color: var(--clr-orange);
 }
 
