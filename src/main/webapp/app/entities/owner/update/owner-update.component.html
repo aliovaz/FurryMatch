@@ -4,8 +4,66 @@
       <h2 id="jhi-owner-heading" data-cy="OwnerCreateUpdateHeading" jhiTranslate="furryMatchApp.owner.home.createOrEditLabel">
         Create or edit a Owner
       </h2>
+
       <div>
         <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="furryMatchApp.owner.firstName" for="field_firstName">First Name</label>
+          <input type="text" class="form-control" name="firstName" id="field_firstName" data-cy="firstName" formControlName="firstName" />
+          <div *ngIf="editForm.get('firstName')!.invalid && (editForm.get('firstName')!.dirty || editForm.get('firstName')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('firstName')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="furryMatchApp.owner.secondName" for="field_secondName">Second Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="secondName"
+            id="field_secondName"
+            data-cy="secondName"
+            formControlName="secondName"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="furryMatchApp.owner.firstLastName" for="field_firstLastName">First Last Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="firstLastName"
+            id="field_firstLastName"
+            data-cy="firstLastName"
+            formControlName="firstLastName"
+          />
+          <div
+            *ngIf="
+              editForm.get('firstLastName')!.invalid && (editForm.get('firstLastName')!.dirty || editForm.get('firstLastName')!.touched)
+            "
+          >
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('firstLastName')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+          </div>
+        </div>
+
         <div class="row mb-3">
           <label class="form-label" jhiTranslate="furryMatchApp.owner.secondLastName" for="field_secondLastName">Second Last Name</label>
           <input
