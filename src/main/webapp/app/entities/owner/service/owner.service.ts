@@ -30,24 +30,7 @@ export type EntityArrayResponseType = HttpResponse<IOwner[]>;
 export class OwnerService {
   protected resourceUrl = this.applicationConfigService.getEndpointFor('api/owners');
 
-  constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService, private _http: HttpClient) {}
-
-  uploadImage(vals: any): Observable<any> {
-    let data = vals;
-    return this._http.post('https://api.cloudinary.com/v1_1/alocortesu/image/upload', data);
-  }
-
-  getProvinces() {
-    return this.http.get('https://ubicaciones.paginasweb.cr/provincias.json');
-  }
-
-  getCantones(provinceId: number) {
-    return this.http.get(`https://ubicaciones.paginasweb.cr/provincia/${provinceId}/cantones.json`);
-  }
-
-  getDistricts(provinceId: number | null, cantonId: number) {
-    return this.http.get(`https://ubicaciones.paginasweb.cr/provincia/${provinceId}/canton/${cantonId}/distritos.json`);
-  }
+  constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
   create(owner: NewOwner): Observable<EntityResponseType> {
     const copy = this.convertDateFromClient(owner);

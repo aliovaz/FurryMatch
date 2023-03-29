@@ -9,7 +9,7 @@ export class Registration {
     public firstLastName: string,
     public secondLastName: string,
     public phoneNumber: number,
-    public photo: string,
+    public photo: String,
     public identityNumber: string,
     public address: string,
     public province: string,

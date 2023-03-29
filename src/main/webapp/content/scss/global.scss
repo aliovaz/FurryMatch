@@ -29,55 +29,33 @@
 }
 
 /* INPUT STYLES */
-input.ng-invalid {
-  border-color: var(--clr-orange) !important;
-}
-
 .inp-txt {
   box-sizing: border-box;
   height: 58px !important;
+  width: 295px !important;
   width: 295px !important;
   border-radius: 15px !important;
   border-width: 1.5px !important;
   border-color: #e8e6ea !important;
   font-family: var(--typo-global);
-  color: var(--clr-black) !important;
+  color: var(--clr-grey) !important;
   padding: 6px 12px 6px 20px !important;
-  margin-top: 6px;
-  margin-bottom: var(--margin-min);
   line-height: 1.5 !important;
 }
 
 .inp-txt::placeholder {
   text-align: left;
   font-size: 14px;
-  color: var(--clr-black) !important;
+  /*padding-left: 2px;*/
+  color: #adafbb !important;
 }
 
 .inp-txt:focus {
   background-color: transparent !important;
-  display: flex;
-  justify-content: left;
-  padding-left: 20px;
-}
-
-/* LABEL STYLES */
-label,
-.lbl-txt {
-  color: var(--clr-black) !important;
-  font-size: 14px;
-  text-align: left;
-  display: flex;
-  justify-content: left;
-  padding-left: 20px;
 }
 
 /* DROPDOWN STYLES */
 select {
-  text-align: left;
-  font-size: 14px;
-  color: var(--clr-black) !important;
-  font: var(--typo-global) !important;
   height: 58px !important;
   width: 295px !important;
   border-radius: 15px !important;
@@ -90,11 +68,6 @@ select {
   padding-right: 20px; /* Espacio para el icono */
   padding-left: 20px;
   background-color: transparent;
-  margin-top: 6px;
-}
-
-select.ng-invalid {
-  border-color: var(--clr-orange) !important;
 }
 
 .inp-txt:focus,
@@ -189,10 +162,6 @@ input[type='checkbox']:checked:after {
   display: block;
 }
 
-.alert-txt {
-  color: var(--clr-orange) !important;
-}
-
 /* BUTTON STYLES */
 button {
   height: 58px !important;
@@ -208,12 +177,6 @@ button {
 .img-logo-blue {
   width: 120px;
   height: 120px;
-}
-
-.cnt-txt {
-  display: flex !important;
-  flex-direction: column !important;
-  justify-content: flex-start !important;
 }
 
 html,
