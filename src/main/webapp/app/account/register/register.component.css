@@ -27,6 +27,14 @@
   margin-bottom: var(--margin-small);
 }
 
+.cnt-pass {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  gap: var(--margin-md);
+  margin-bottom: var(--margin-min);
+}
+
 .cnt-row1,
 .cnt-row2,
 .cnt-row3 {
@@ -111,4 +119,11 @@ input.ng-touched.ng-invalid {
 
 .text-cuenta {
   font: var(--typo-global);
+}
+
+.grey-block {
+  background-color: rgba(128, 128, 128, 0.1);
+  padding-top: var(--margin-md);
+  padding-bottom: var(--margin-md);
+  border-radius: 15px !important;
 }

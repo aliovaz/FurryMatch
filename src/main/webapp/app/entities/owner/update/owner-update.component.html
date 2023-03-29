@@ -8,59 +8,152 @@
       <div>
         <jhi-alert-error></jhi-alert-error>
 
-        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
-          <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
-          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
-        </div>
-
-        <div class="row mb-3">
-          <label class="form-label" jhiTranslate="furryMatchApp.owner.firstName" for="field_firstName">First Name</label>
-          <input type="text" class="form-control" name="firstName" id="field_firstName" data-cy="firstName" formControlName="firstName" />
-          <div *ngIf="editForm.get('firstName')!.invalid && (editForm.get('firstName')!.dirty || editForm.get('firstName')!.touched)">
-            <small
-              class="form-text text-danger"
-              *ngIf="editForm.get('firstName')?.errors?.required"
-              jhiTranslate="entity.validation.required"
-            >
-              This field is required.
-            </small>
+        <div class="profile-pic">
+          <div class="profile-pic-div">
+            <ngx-dropzone (change)="onSelect($event)">
+              <ngx-dropzone-label>Arrastrá o seleccioná<br />una foto</ngx-dropzone-label>
+              <ngx-dropzone-image-preview
+                class="dropzoneImg"
+                ngProjectAs="ngx-dropzone-preview"
+                *ngFor="let f of files"
+                [file]="f"
+                [removable]="true"
+                (removed)="onRemove(f)"
+              >
+                <ngx-dropzone-label>({{ f.type }})</ngx-dropzone-label>
+              </ngx-dropzone-image-preview>
+            </ngx-dropzone>
           </div>
+          <button (click)="onUpload()" class="btn btn-blue">Subir</button>
         </div>
 
-        <div class="row mb-3">
-          <label class="form-label" jhiTranslate="furryMatchApp.owner.secondName" for="field_secondName">Second Name</label>
-          <input
-            type="text"
-            class="form-control"
-            name="secondName"
-            id="field_secondName"
-            data-cy="secondName"
-            formControlName="secondName"
-          />
-        </div>
+        <div class="login-wrapper">
+          <div class="wrapper-sec">
+            <div class="cnt-inputs">
+              <div class="cnt-pass">
+                <input
+                  type="text"
+                  class="form-control inp-txt"
+                  name="email"
+                  id="field_email"
+                  data-cy="email"
+                  formControlName="email"
+                  placeholder="Correo electrónico"
+                />
 
-        <div class="row mb-3">
-          <label class="form-label" jhiTranslate="furryMatchApp.owner.firstLastName" for="field_firstLastName">First Last Name</label>
-          <input
-            type="text"
-            class="form-control"
-            name="firstLastName"
-            id="field_firstLastName"
-            data-cy="firstLastName"
-            formControlName="firstLastName"
-          />
-          <div
-            *ngIf="
-              editForm.get('firstLastName')!.invalid && (editForm.get('firstLastName')!.dirty || editForm.get('firstLastName')!.touched)
-            "
-          >
-            <small
-              class="form-text text-danger"
-              *ngIf="editForm.get('firstLastName')?.errors?.required"
-              jhiTranslate="entity.validation.required"
-            >
-              This field is required.
-            </small>
+                <input
+                  type="text"
+                  class="form-control inp-txt"
+                  name="userPassword"
+                  id="field_userPassword"
+                  data-cy="userPassword"
+                  formControlName="userPassword"
+                  placeholder="Contraseña"
+                />
+              </div>
+              <div class="cnt-row1">
+                <div>
+                  <input
+                    type="text"
+                    class="form-control inp-txt"
+                    name="firstName"
+                    id="field_firstName"
+                    data-cy="firstName"
+                    formControlName="firstName"
+                    placeholder="Nombre"
+                  />
+                </div>
+
+                <div>
+                  <input
+                    type="text"
+                    class="form-control inp-txt"
+                    name="secondName"
+                    id="field_secondName"
+                    data-cy="secondName"
+                    formControlName="secondName"
+                    placeholder="Segundo nombre"
+                  />
+                </div>
+
+                <div>
+                  <input
+                    type="text"
+                    class="form-control inp-txt"
+                    name="firstLastName"
+                    id="field_firstLastName"
+                    data-cy="firstLastName"
+                    formControlName="firstLastName"
+                    placeholder="Primer apellido"
+                  />
+                </div>
+
+                <div>
+                  <input
+                    type="text"
+                    class="form-control inp-txt"
+                    name="secondLastName"
+                    id="field_secondLastName"
+                    data-cy="secondLastName"
+                    formControlName="secondLastName"
+                    placeholder="Segundo apellido"
+                  />
+                </div>
+              </div>
+              <div class="cnt-row2">
+                <div>
+                  <input
+                    type="text"
+                    class="form-control inp-txt"
+                    name="identityNumber"
+                    id="field_identityNumber"
+                    data-cy="identityNumber"
+                    formControlName="identityNumber"
+                    placeholder="Número de identificación"
+                  />
+                </div>
+
+                <div>
+                  <input
+                    type="number"
+                    class="form-control inp-txt"
+                    name="phoneNumber"
+                    id="field_phoneNumber"
+                    data-cy="phoneNumber"
+                    formControlName="phoneNumber"
+                    placeholder="Número de teléfono"
+                  />
+                </div>
+
+                <div>
+                  <input
+                    type="text"
+                    class="form-control inp-txt"
+                    name="adress"
+                    id="field_adress"
+                    data-cy="adress"
+                    formControlName="adress"
+                    placeholder="Dirección"
+                  />
+                </div>
+              </div>
+              <div class="cnt-row3">
+                <select class="form-control" id="province" name="province" formControlName="province" (change)="updateProvince($event)">
+                  <option value="">Provincia</option>
+                  <option *ngFor="let province of provinces" [value]="province.id">{{ province.name }}</option>
+                </select>
+
+                <select select class="form-control" id="canton" name="canton" formControlName="canton" (change)="updateCanton($event)">
+                  <option value="">Cantón</option>
+                  <option *ngFor="let canton of cantones" [value]="canton.id">{{ canton.name }}</option>
+                </select>
+
+                <select class="form-control" id="district" name="district" formControlName="district">
+                  <option value="">Distrito</option>
+                  <option *ngFor="let district of districts" [value]="district.id">{{ district.name }}</option>
+                </select>
+              </div>
+            </div>
           </div>
         </div>
 

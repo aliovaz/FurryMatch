@@ -9,6 +9,23 @@ import { Registration } from './register.model';
 export class RegisterService {
   constructor(private http: HttpClient, private applicationConfigService: ApplicationConfigService) {}
 
+  uploadImage(vals: any): Observable<any> {
+    let data = vals;
+    return this.http.post('https://api.cloudinary.com/v1_1/alocortesu/image/upload', data);
+  }
+
+  getProvinces() {
+    return this.http.get('https://ubicaciones.paginasweb.cr/provincias.json');
+  }
+
+  getCantones(provinceId: number) {
+    return this.http.get(`https://ubicaciones.paginasweb.cr/provincia/${provinceId}/cantones.json`);
+  }
+
+  getDistricts(provinceId: number | null, cantonId: number) {
+    return this.http.get(`https://ubicaciones.paginasweb.cr/provincia/${provinceId}/canton/${cantonId}/distritos.json`);
+  }
+
   save(registration: Registration): Observable<{}> {
     return this.http.post(this.applicationConfigService.getEndpointFor('api/register'), registration);
   }
