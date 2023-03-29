@@ -13,10 +13,14 @@ import { IBreed } from 'app/entities/breed/breed.model';
 import { BreedService } from 'app/entities/breed/service/breed.service';
 import { PetType } from 'app/entities/enumerations/pet-type.model';
 import { Sex } from 'app/entities/enumerations/sex.model';
+import { FormControl } from '@angular/forms';
+// @ts-ignore
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 
 @Component({
   selector: 'jhi-pet-update',
   templateUrl: './pet-update.component.html',
+  styleUrls: ['pet-update.component.css'],
 })
 export class PetUpdateComponent implements OnInit {
   isSaving = false;
@@ -28,6 +32,8 @@ export class PetUpdateComponent implements OnInit {
   breedsSharedCollection: IBreed[] = [];
 
   editForm: PetFormGroup = this.petFormService.createPetFormGroup();
+
+  files: File[] = [];
 
   constructor(
     protected petService: PetService,
@@ -51,6 +57,51 @@ export class PetUpdateComponent implements OnInit {
       this.loadRelationshipsOptions();
     });
   }
+
+  onSelect(event?: any) {
+    console.log(event);
+    this.files.push(...event.addedFiles);
+  }
+
+  onRemove(event?: any) {
+    console.log(event);
+    this.files.splice(this.files.indexOf(event), 1);
+  }
+
+  onUpload() {
+    if (!this.files[0])
+      Swal.fire({
+        title: 'Error',
+        text: 'Debés primero arrastrar o seleccionar una imagen.',
+        type: 'error',
+        icon: 'error',
+        confirmButtonColor: '#3381f6',
+        confirmButtonText: 'Cerrar',
+      });
+
+    const file_data = this.files[0];
+    const data = new FormData();
+    data.append('file', file_data);
+    data.append('upload_preset', 'furry_match');
+    data.append('cloud_name', 'alocortesu');
+
+    this.petService.uploadImage(data).subscribe(response => {
+      if (response) {
+        const secureUrl = response.secure_url;
+        this.photo.setValue(secureUrl);
+        Swal.fire({
+          title: 'Fotografía agregada',
+          text: 'Continuá registrando tus datos.',
+          type: 'success',
+          icon: 'success',
+          confirmButtonColor: '#3381f6',
+          confirmButtonText: 'Cerrar',
+        });
+      }
+    });
+  }
+
+  photo: FormControl = new FormControl('');
 
   previousState(): void {
     window.history.back();

@@ -1,145 +1,215 @@
-<div class="d-flex justify-content-center">
-  <div class="col-8">
-    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-      <h2 id="jhi-pet-heading" data-cy="PetCreateUpdateHeading" jhiTranslate="furryMatchApp.pet.home.createOrEditLabel">
-        Create or edit a Pet
-      </h2>
-
-      <div>
-        <jhi-alert-error></jhi-alert-error>
-
-        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
-          <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
-          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
-        </div>
-
-        <div class="row mb-3">
-          <label class="form-label" jhiTranslate="furryMatchApp.pet.name" for="field_name">Name</label>
-          <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" />
-          <div *ngIf="editForm.get('name')!.invalid && (editForm.get('name')!.dirty || editForm.get('name')!.touched)">
-            <small class="form-text text-danger" *ngIf="editForm.get('name')?.errors?.required" jhiTranslate="entity.validation.required">
-              This field is required.
-            </small>
-          </div>
-        </div>
-
-        <div class="row mb-3">
-          <label class="form-label" jhiTranslate="furryMatchApp.pet.petType" for="field_petType">Pet Type</label>
-          <select class="form-control" name="petType" formControlName="petType" id="field_petType" data-cy="petType">
-            <option [ngValue]="null">{{ 'furryMatchApp.PetType.null' | translate }}</option>
-            <option *ngFor="let petType of petTypeValues" [value]="petType">{{ 'furryMatchApp.PetType.' + petType | translate }}</option>
-          </select>
-          <div *ngIf="editForm.get('petType')!.invalid && (editForm.get('petType')!.dirty || editForm.get('petType')!.touched)">
-            <small
-              class="form-text text-danger"
-              *ngIf="editForm.get('petType')?.errors?.required"
-              jhiTranslate="entity.validation.required"
+<div class="cnt-princ">
+  <h1 class="title">Mi mascota</h1>
+  <div>
+    <div>
+      <div class="profile-pic">
+        <div class="profile-pic-div">
+          <ngx-dropzone (change)="onSelect($event)">
+            <ngx-dropzone-label>Arrastrá o seleccioná<br />una foto</ngx-dropzone-label>
+            <ngx-dropzone-image-preview
+              class="dropzoneImg"
+              ngProjectAs="ngx-dropzone-preview"
+              *ngFor="let f of files"
+              [file]="f"
+              [removable]="true"
+              (removed)="onRemove(f)"
             >
-              This field is required.
-            </small>
-          </div>
+              <ngx-dropzone-label>({{ f.type }})</ngx-dropzone-label>
+            </ngx-dropzone-image-preview>
+          </ngx-dropzone>
         </div>
+        <button (click)="onUpload()" class="btn btn-blue">Subir</button>
+      </div>
+      <!--        <jhi-alert-error></jhi-alert-error>-->
+      <div class="login-wrapper">
+        <div class="wrapper-sec">
+          <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <div class="cnt-inputs">
+              <div class="cnt-row1">
+                <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+                  <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+                  <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+                </div>
 
-        <div class="row mb-3">
-          <label class="form-label" jhiTranslate="furryMatchApp.pet.description" for="field_description">Description</label>
-          <input
-            type="text"
-            class="form-control"
-            name="description"
-            id="field_description"
-            data-cy="description"
-            formControlName="description"
-          />
-          <div *ngIf="editForm.get('description')!.invalid && (editForm.get('description')!.dirty || editForm.get('description')!.touched)">
-            <small
-              class="form-text text-danger"
-              *ngIf="editForm.get('description')?.errors?.required"
-              jhiTranslate="entity.validation.required"
-            >
-              This field is required.
-            </small>
-          </div>
-        </div>
+                <div class="row mb-3">
+                  <label class="form-label" jhiTranslate="furryMatchApp.pet.name" for="field_name">Name</label>
+                  <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" />
+                  <div *ngIf="editForm.get('name')!.invalid && (editForm.get('name')!.dirty || editForm.get('name')!.touched)">
+                    <small
+                      class="form-text text-danger"
+                      *ngIf="editForm.get('name')?.errors?.required"
+                      jhiTranslate="entity.validation.required"
+                    >
+                      This field is required.
+                    </small>
+                  </div>
+                </div>
 
-        <div class="row mb-3">
-          <label class="form-label" jhiTranslate="furryMatchApp.pet.sex" for="field_sex">Sex</label>
-          <select class="form-control" name="sex" formControlName="sex" id="field_sex" data-cy="sex">
-            <option [ngValue]="null">{{ 'furryMatchApp.Sex.null' | translate }}</option>
-            <option *ngFor="let sex of sexValues" [value]="sex">{{ 'furryMatchApp.Sex.' + sex | translate }}</option>
-          </select>
-          <div *ngIf="editForm.get('sex')!.invalid && (editForm.get('sex')!.dirty || editForm.get('sex')!.touched)">
-            <small class="form-text text-danger" *ngIf="editForm.get('sex')?.errors?.required" jhiTranslate="entity.validation.required">
-              This field is required.
-            </small>
-          </div>
-        </div>
+                <div class="row mb-3">
+                  <label class="form-label" jhiTranslate="furryMatchApp.pet.description" for="field_description">Description</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="description"
+                    id="field_description"
+                    data-cy="description"
+                    formControlName="description"
+                  />
+                  <div
+                    *ngIf="
+                      editForm.get('description')!.invalid && (editForm.get('description')!.dirty || editForm.get('description')!.touched)
+                    "
+                  >
+                    <small
+                      class="form-text text-danger"
+                      *ngIf="editForm.get('description')?.errors?.required"
+                      jhiTranslate="entity.validation.required"
+                    >
+                      This field is required.
+                    </small>
+                  </div>
+                </div>
+              </div>
+              <div class="cnt-row2">
+                <div class="row mb-3">
+                  <label class="form-label" jhiTranslate="furryMatchApp.pet.petType" for="field_petType">Pet Type</label>
+                  <select class="form-control" name="petType" formControlName="petType" id="field_petType" data-cy="petType">
+                    <option [ngValue]="null">{{ 'furryMatchApp.PetType.null' | translate }}</option>
+                    <option *ngFor="let petType of petTypeValues" [value]="petType">
+                      {{ 'furryMatchApp.PetType.' + petType | translate }}
+                    </option>
+                  </select>
+                  <div *ngIf="editForm.get('petType')!.invalid && (editForm.get('petType')!.dirty || editForm.get('petType')!.touched)">
+                    <small
+                      class="form-text text-danger"
+                      *ngIf="editForm.get('petType')?.errors?.required"
+                      jhiTranslate="entity.validation.required"
+                    >
+                      This field is required.
+                    </small>
+                  </div>
+                </div>
 
-        <div class="row mb-3">
-          <label class="form-label" jhiTranslate="furryMatchApp.pet.tradeMoney" for="field_tradeMoney">Trade Money</label>
-          <input
-            type="checkbox"
-            class="form-check"
-            name="tradeMoney"
-            id="field_tradeMoney"
-            data-cy="tradeMoney"
-            formControlName="tradeMoney"
-          />
-        </div>
+                <div class="row mb-3">
+                  <label class="form-label" jhiTranslate="furryMatchApp.pet.breed" for="field_breed">Breed</label>
+                  <select
+                    class="form-control"
+                    id="field_breed"
+                    data-cy="breed"
+                    name="breed"
+                    formControlName="breed"
+                    [compareWith]="compareBreed"
+                  >
+                    <option [ngValue]="null"></option>
+                    <option [ngValue]="breedOption" *ngFor="let breedOption of breedsSharedCollection">{{ breedOption.id }}</option>
+                  </select>
+                </div>
 
-        <div class="row mb-3">
-          <label class="form-label" jhiTranslate="furryMatchApp.pet.tradePups" for="field_tradePups">Trade Pups</label>
-          <input type="checkbox" class="form-check" name="tradePups" id="field_tradePups" data-cy="tradePups" formControlName="tradePups" />
-        </div>
+                <div class="row mb-3">
+                  <label class="form-label" jhiTranslate="furryMatchApp.pet.sex" for="field_sex">Sex</label>
+                  <select class="form-control" name="sex" formControlName="sex" id="field_sex" data-cy="sex">
+                    <option [ngValue]="null">{{ 'furryMatchApp.Sex.null' | translate }}</option>
+                    <option *ngFor="let sex of sexValues" [value]="sex">{{ 'furryMatchApp.Sex.' + sex | translate }}</option>
+                  </select>
+                  <div *ngIf="editForm.get('sex')!.invalid && (editForm.get('sex')!.dirty || editForm.get('sex')!.touched)">
+                    <small
+                      class="form-text text-danger"
+                      *ngIf="editForm.get('sex')?.errors?.required"
+                      jhiTranslate="entity.validation.required"
+                    >
+                      This field is required.
+                    </small>
+                  </div>
+                </div>
+              </div>
+              <div class="cnt-row3">
+                <div class="cnt-orange">
+                  <div class="cnt-orange-row1">
+                    <p class="txt-disc">
+                      <mark class="txt-disc-orange">¿Tu objetivo es cruzar a tu mascota?&nbsp;</mark>
+                      Entonces llená estos datos adicionales, son importantes para encontrarle su pareja ideal. Si solo estás buscando
+                      amistad, no es necesario llenarlo. Recordá que podés agregarlos o modificarlos cuando querás en tu perfil personal.
+                    </p>
+                  </div>
+                  <div class="cnt-orange-row2">
+                    <div class="cbox-wrapper">
+                      <input
+                        type="checkbox"
+                        class="form-check"
+                        name="pedigree"
+                        id="field_pedigree"
+                        data-cy="pedigree"
+                        formControlName="pedigree"
+                      />
+                      <label class="cbox-label" for="field_pedigree">¿Tu mascota cuenta con pedigrí?</label>
+                    </div>
 
-        <div class="row mb-3">
-          <label class="form-label" jhiTranslate="furryMatchApp.pet.pedigree" for="field_pedigree">Pedigree</label>
-          <input type="checkbox" class="form-check" name="pedigree" id="field_pedigree" data-cy="pedigree" formControlName="pedigree" />
-        </div>
+                    <div class="cbox-wrapper">
+                      <input
+                        type="checkbox"
+                        class="form-check"
+                        name="tradePups"
+                        id="field_tradePups"
+                        data-cy="tradePups"
+                        formControlName="tradePups"
+                      />
+                      <label class="cbox-label" for="field_tradePups">¿Deseas negociar la repartición de las crias?</label>
+                    </div>
+                  </div>
+                  <div class="cnt-orange-row3">
+                    <div class="cbox-wrapper">
+                      <input
+                        type="checkbox"
+                        class="form-check"
+                        name="tradeMoney"
+                        id="field_tradeMoney"
+                        data-cy="tradeMoney"
+                        formControlName="tradeMoney"
+                      />
+                      <label class="cbox-label" for="field_tradeMoney">¿Deseas cobrar dinero por el cruce de las mascotas?</label>
+                    </div>
 
-        <div class="row mb-3">
-          <label class="form-label" jhiTranslate="furryMatchApp.pet.desireAmmount" for="field_desireAmmount">Desire Ammount</label>
-          <input
-            type="number"
-            class="form-control"
-            name="desireAmmount"
-            id="field_desireAmmount"
-            data-cy="desireAmmount"
-            formControlName="desireAmmount"
-          />
-        </div>
+                    <div class="cbox-wrapper">
+                      <input
+                        type="number"
+                        class="form-control"
+                        name="desireAmmount"
+                        id="field_desireAmmount"
+                        data-cy="desireAmmount"
+                        formControlName="desireAmmount"
+                      />
+                      <label class="form-label" for="field_desireAmmount">Monto a cobrar</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <jhi-alert-error></jhi-alert-error>
 
-        <div class="row mb-3">
-          <label class="form-label" jhiTranslate="furryMatchApp.pet.owner" for="field_owner">Owner</label>
-          <select class="form-control" id="field_owner" data-cy="owner" name="owner" formControlName="owner" [compareWith]="compareOwner">
-            <option [ngValue]="null"></option>
-            <option [ngValue]="ownerOption" *ngFor="let ownerOption of ownersSharedCollection">{{ ownerOption.id }}</option>
-          </select>
-        </div>
+              <!--              <div class="row mb-3">-->
+              <!--                <label class="form-label" jhiTranslate="furryMatchApp.pet.owner" for="field_owner">Owner</label>-->
+              <!--                <select class="form-control" id="field_owner" data-cy="owner" name="owner" formControlName="owner" [compareWith]="compareOwner">-->
+              <!--                  <option [ngValue]="null"></option>-->
+              <!--                  <option [ngValue]="ownerOption" *ngFor="let ownerOption of ownersSharedCollection">{{ ownerOption.id }}</option>-->
+              <!--                </select>-->
+              <!--              </div>-->
+            </div>
 
-        <div class="row mb-3">
-          <label class="form-label" jhiTranslate="furryMatchApp.pet.breed" for="field_breed">Breed</label>
-          <select class="form-control" id="field_breed" data-cy="breed" name="breed" formControlName="breed" [compareWith]="compareBreed">
-            <option [ngValue]="null"></option>
-            <option [ngValue]="breedOption" *ngFor="let breedOption of breedsSharedCollection">{{ breedOption.id }}</option>
-          </select>
+            <div>
+              <button
+                type="submit"
+                id="save-entity"
+                data-cy="entityCreateSaveButton"
+                [disabled]="editForm.invalid || isSaving"
+                class="btn btn-primary"
+              >
+                <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+              </button>
+            </div>
+          </form>
         </div>
       </div>
-
-      <div>
-        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
-          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
-        </button>
-
-        <button
-          type="submit"
-          id="save-entity"
-          data-cy="entityCreateSaveButton"
-          [disabled]="editForm.invalid || isSaving"
-          class="btn btn-primary"
-        >
-          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
-        </button>
-      </div>
-    </form>
+    </div>
   </div>
 </div>

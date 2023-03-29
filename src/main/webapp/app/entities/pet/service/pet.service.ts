@@ -18,6 +18,11 @@ export class PetService {
 
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
+  uploadImage(vals: any): Observable<any> {
+    let data = vals;
+    return this.http.post('https://api.cloudinary.com/v1_1/alocortesu/image/upload', data);
+  }
+
   create(pet: NewPet): Observable<EntityResponseType> {
     return this.http.post<IPet>(this.resourceUrl, pet, { observe: 'response' });
   }

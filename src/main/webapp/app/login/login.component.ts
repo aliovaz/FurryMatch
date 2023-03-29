@@ -1,7 +1,8 @@
 import { Component, ViewChild, OnInit, AfterViewInit, ElementRef } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import Swal from 'sweetalert2/dist/sweetalert2.all.js';
+// @ts-ignore
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 
 import { LoginService } from 'app/login/login.service';
 import { AccountService } from 'app/core/auth/account.service';

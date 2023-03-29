@@ -5,9 +5,10 @@ import { PetDetailComponent } from './detail/pet-detail.component';
 import { PetUpdateComponent } from './update/pet-update.component';
 import { PetDeleteDialogComponent } from './delete/pet-delete-dialog.component';
 import { PetRoutingModule } from './route/pet-routing.module';
+import { NgxDropzoneModule } from 'ngx-dropzone';
 
 @NgModule({
-  imports: [SharedModule, PetRoutingModule],
+  imports: [SharedModule, PetRoutingModule, NgxDropzoneModule],
   declarations: [PetComponent, PetDetailComponent, PetUpdateComponent, PetDeleteDialogComponent],
 })
 export class PetModule {}
